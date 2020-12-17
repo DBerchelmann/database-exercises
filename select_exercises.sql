@@ -14,7 +14,7 @@ describe albums;
 
 # The name of all albums by Pink Floyd
 
-select *
+select name AS 'Albums by Pink Floyd'
 from albums
 where artist = 'Pink Floyd';
 
@@ -46,7 +46,8 @@ order by sales;
 
 # All the albums with a genre of "Rock". Why do these query results not include albums with a genre of "Hard rock" or "Progressive rock"?
 
-select *
+select name,
+	   genre
 from albums
 where genre like '%rock%';
 
