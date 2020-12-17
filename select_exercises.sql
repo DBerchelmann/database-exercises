@@ -12,7 +12,7 @@ where artist = 'Pink Floyd';
 
 select release_date
 from albums
-where name = 'Sgt. Pepper''s Lonely Hearts Club Band';
+where name = 'Sgt. Pepper\'s Lonely Hearts Club Band';
 
 # The genre for the album Nevermind
 
