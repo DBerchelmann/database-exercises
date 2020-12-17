@@ -16,7 +16,7 @@ where name = 'Sgt. Pepper\'s Lonely Hearts Club Band';
 
 # The genre for the album Nevermind
 
-select genre
+select *
 from albums
 where name = 'Nevermind';
 
@@ -24,7 +24,7 @@ where name = 'Nevermind';
 
 select *
 from albums
-where release_date >= 1990
+where release_date between 1990 and 1999
 order by release_date;
 
 # Which albums had less than 20 million certified sales
@@ -38,7 +38,8 @@ order by sales;
 
 select *
 from albums
-where genre = 'rock';
+where genre like '%rock%';
 
-# The reason these query results don't return any 'Hard Rock' or 'Progressive Rock' is because the genre..
-# column didn't include those labels to further identify the albums
+# The reason these query results don't return any 'Hard Rock' or 'Progressive Rock' is because when searching for genre...
+# the search only brings back a whole string not part of a string. To get these results, you would need to search for "Hard rock" or "Progressive rock"
+# To fix this issues, you need to use a wildcard operator as the code shows above and will show all genres with 'rock'
