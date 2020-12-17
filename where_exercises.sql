@@ -27,9 +27,9 @@ WHERE first_name = 'Irena' OR
 
 SELECT *
 FROM employees
-WHERE first_name = 'Irena' OR 
+WHERE (first_name = 'Irena' OR 
 	  first_name = 'Vidya' OR 
-	  first_name = 'Maya'
+	  first_name = 'Maya')
 AND gender = 'M';
 
 # Records returned is 619
