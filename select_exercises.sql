@@ -1,6 +1,16 @@
+#Create a new file called select_exercises.sql. Do your work for this exercise in that file.
+
+#Use the albums_db database.
+
 show databases;
 
 use albums_db;
+SELECT database();
+
+#Explore the structure of the albums table.
+
+show tables;
+describe albums;
 
 # The name of all albums by Pink Floyd
 
