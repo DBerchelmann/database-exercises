@@ -32,7 +32,7 @@ WHERE (first_name = 'Irena' OR
 	  first_name = 'Maya')
 AND gender = 'M';
 
-# Records returned is 619
+# Records returned is 441
 
 #5 Find all current or previous employees whose last name starts with 'E'. Enter a comment with the number of employees whose last name starts with E.
 
