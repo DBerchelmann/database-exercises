@@ -20,7 +20,9 @@ all tables contain a string type column except salaries;
 all tables contain a date type column except departments and employees_with_departments;
 
 # What is the relationship between the employees and the departments tables?
-The information from both tables is used in the employees_with_departments (minus the gender and start date);
+(this answer is from Ryan) It's not direct, they don't share primary/foreign keys in common;
+While there is no direct relationship between these 2 tables, they do show up in dept_emp;
+it is a many to many relationship (reference ryans notes);
 
 # Show the SQL that created the dept_manager table.
 SHOW create table dept_manager;
