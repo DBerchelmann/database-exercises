@@ -60,7 +60,7 @@ last_name LIKE "E%";
 
 # 30,723 employees have a name that starts or ends with "E".  23,393 employees have a name that ends with "E" but not starts with "E"
 
-#7 Find all current or previous employees employees whose last name starts and ends with 'E'. Enter a comment with the number of employees whose last name starts and ends with E. How many employees' last names end with E, regardless of whether they start with E?
+#7 Find all current or previous employees employees whose last name starts and ends with 'E'. Enter a comment with the number of employees whose last name starts and ends with E. How many employees last names end with E, regardless of whether they start with E?
 
 SELECT *
 FROM employees
