@@ -1,8 +1,16 @@
 #1 Create a new SQL script named limit_exercises.sql.
 
+USE employees;
+SELECT databases();
+SHOW tables;
+
 #2. MySQL provides a way to return only unique results from our queries with the keyword DISTINCT. For example, to find all the unique titles within the company, we could run the following query:
 
 #. SELECT DISTINCT title FROM titles;
+
+SELECT DISTINCT title
+FROM titles;
+
 #. List the first 10 distinct last name sorted in descending order.
 
 SELECT DISTINCT last_name
@@ -44,15 +52,17 @@ WHERE (hire_date LIKE "199%"
 AND
 birth_date LIKE "%-12-25")
 ORDER BY hire_date ASC
-LIMIT 5 OFFSET 50;
+LIMIT 5 OFFSET 45;
 
-# Christophe Baca, Moie Birsak, Chikako Ibel, Shounak Jansen, Zhigen Boissier
+# Pranay Nrwekar, Marjjo Farro, Ennio Karcich, Dines Lubachevsky, Ipke Fontan
 
 
 # LIMIT and OFFSET can be used to create multiple pages of data. What is the relationship between OFFSET (number of results to skip), LIMIT (number of results per page), and the page number?
 
 # The limit states how many results will be shown, the offset says which of those results will be brought up, and the page number shows the 
 # number of rows based on the limit and the results are based on the offset (which tells the database which entry to begin on)
+
+
 
 
 
