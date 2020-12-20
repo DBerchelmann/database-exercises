@@ -70,6 +70,7 @@ SELECT lower(concat(
 	    ) AS username, count(*)
 FROM employees
 GROUP BY username
+HAVING count(*) > 1
 ORDER BY count(*) DESC;
 
 #below is my code to figure out the bonus. Not working yet but getting there.
@@ -88,3 +89,19 @@ WHERE sum(count) IN (
 	HAVING username > 1)
 GROUP BY username
 ORDER BY count(*) DESC;
+
+
+### 
+SELECT sum(temp.username_count) AS total_users_with_duplicated_usernames, 
+		COUNT(temp.username_count) AS distinct_usernames_that_are_duplicated, 
+		sum(temp.username_count) - COUNT(temp.username_count) AS number_of_users_who_need_unique_usernames
+FROM (SELECT CONCAT(LOWER(SUBSTR(first_name, 1, 1)), 
+					LOWER(SUBSTR(last_name, 1, 4)), "_", 
+					SUBSTR(birth_date, 6, 2),
+					SUBSTR(birth_date, 3, 2)) AS username, 
+					COUNT(*) as username_count
+        FROM employees
+        GROUP BY username
+        ORDER BY username_count DESC
+) as temp
+WHERE username_count > 1;
