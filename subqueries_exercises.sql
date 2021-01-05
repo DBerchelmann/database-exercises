@@ -45,12 +45,13 @@ group by title;
 
 select count(emp_no)
 from employees
-JOIN dept_emp using (emp_no)
-WHERE to_date IN (
-	SELECT to_date
-	FROM dept_emp
-	WHERE to_date < curdate()
+WHERE emp_no NOT IN (
+	SELECT emp_no
+	FROM salaries
+	WHERE to_date > curdate()
 );
+
+# 91,409 employees
 
 # 4 Find all the current department managers that are female. List their names in a comment in your code.
 
@@ -81,5 +82,21 @@ where salary > (
 salaries.to_date > curdate()
 ORDER BY salary DESC;
 
-select avg(salary)
+
+select ROUND(avg(salary), 2)
 from salaries;
+
+# 6 How many current salaries are within 1 standard deviation of the current highest salary? (Hint: you can use a built in function to calculate the standard deviation.) What percentage of all salaries is this?
+
+# use STD function for standard deviation
+# find the max salary where to_date>curdate() ---- this can be pulled directly from salaries
+
+# select standard deviation
+# select max salary
+
+# total count of current salaries >= 1 stddev from highest salary 
+
+# select max - select stddev
+
+# total number of current salaries
+
