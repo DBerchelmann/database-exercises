@@ -115,11 +115,16 @@ LIMIT 1;
 
 # Bonus Find the names of all current employees, their department name, and their current managers name.
 
-select concat(employees_with_departments.first_name, " ", employees_with_departments.last_name) AS "Employee Name", 
+select concat(employees.first_name, " ", employees.last_name) AS "Employee Name", 
        dept_name AS "Department Name",
        concat(employees_with_departments.first_name, " ", employees_with_departments.last_name) AS "Manager Name"
 from employees_with_departments
-JOIN dept_manager ON dept_manager.dept_no = employees_with_departments.dept_no
-JOIN dept_emp ON dept_emp.emp_no = employees_with_departments.emp_no
+JOIN dept_manager 
+		ON dept_manager.emp_no = employees_with_departments.emp_no
+JOIN dept_emp 
+		ON dept_emp.dept_no = dept_manager.dept_no
+JOIN employees
+		ON employees.emp_no = dept_emp.emp_no
 WHERE dept_manager.to_date > curdate() AND
-      dept_emp.to_date > curdate();
+      dept_emp.to_date > curdate()
+ORDER BY dept_name, employees_with_departments.last_name, employees_with_departments.first_name;
