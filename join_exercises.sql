@@ -153,6 +153,12 @@ and dept_emp.to_date > curdate();
 
 # Bonus Who is the highest paid employee within each department.
 
+
+# list tables we need
+# employees to get names
+# salary to get compensation
+# department to get department name
+# Dept_emp to associate deparmtnet and employee
 select first_name, last_name, salary, dept_name
 from employees
 join salaries ON salaries.emp_no = employees.emp_no
