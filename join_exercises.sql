@@ -6,6 +6,13 @@ JOIN users;
 
 # Use join, left join, and right join to combine results from the users and roles tables as we did in the lesson. Before you run each query, guess the expected number of results.
 
+
+select *
+from users
+JOIN roles ON users.role_id=roles.id;
+
+
+
 select *
 from roles
 LEFT JOIN users ON users.role_id=roles.id;
@@ -17,9 +24,9 @@ LEFT JOIN roles ON users.role_id=roles.id;
 # Although not explicitly covered in the lesson, aggregate functions like count can be used with join queries. Use count and the appropriate join type to get a list of roles along with the number of users that has the role. Hint: You will also need to use group by in the query.
 
 
-select roles.name, count(role_id) as "Number of people in role"
+select roles.name, count(users.d) as "Number of people in role"
 from roles 
-JOIN users ON users.role_id=roles.id
+LEFT JOIN users ON users.role_id=roles.id
 GROUP BY roles.name;
 
 # Employees Database
@@ -46,17 +53,19 @@ JOIN dept_manager ON dept_manager.emp_no=employees_with_departments.emp_no
 JOIN departments ON dept_manager.dept_no=departments.dept_no
 JOIN employees ON employees.emp_no=employees_with_departments.emp_no
 WHERE dept_manager.to_date>curdate() AND
-      employees.gender = "F"; 
+      employees.gender = "F"
+ORDER BY departments.dept_name; 
       
       
 # Find the current titles of employees currently working in the Customer Service department.
 
 
-select title AS "Title", COUNT(dept_name) AS "Count"
-from employees_with_departments
-JOIN titles ON titles.emp_no = employees_with_departments.emp_no
-WHERE dept_name = "Customer Service" AND
-      titles.to_date>curdate()
+select title AS "Title", COUNT(dept_emp.emp_no) AS "Count"
+from dept_emp
+JOIN titles ON titles.emp_no = dept_emp.emp_no
+WHERE dept_no = 'd009' AND
+      titles.to_date>curdate() AND
+      dept_emp.to_date>curdate()
 GROUP BY title; 
 
 # Find the current salary of all current managers.
@@ -77,11 +86,11 @@ select departments.dept_no, dept_name, COUNT(*) AS "num_employees"
 from departments
 JOIN dept_emp ON departments.dept_no = dept_emp.dept_no
 WHERE dept_emp.to_date>curdate()
-GROUP BY departments.dept_no;
+GROUP BY departments.dept_no, dept_name;
 
 # Which department has the highest average salary? Hint: Use current not historic information.
 
-SELECT dept_name, avg(salary) AS "average_salary"
+SELECT dept_name, ROUND(avg(salary), 2) AS "average_salary"
 FROM dept_emp
 JOIN departments ON departments.dept_no = dept_emp.dept_no
 JOIN salaries ON dept_emp.emp_no = salaries.emp_no
@@ -128,3 +137,35 @@ JOIN employees
 WHERE dept_manager.to_date > curdate() AND
       dept_emp.to_date > curdate()
 ORDER BY dept_name, employees_with_departments.last_name, employees_with_departments.first_name;
+
+
+# below is faster way to solve bonus problem 10
+
+select concat(employees.first_name, " ", employees.last_name) as "employee_name", dept_name,
+concat(managers.first_name, " ", managers.last_name) as "manager_name"
+from employees
+join dept_emp using(emp_no)
+join departments using(dept_no)
+join dept_manager using(dept_no)
+join employees as managers on managers.emp_no = dept_manager.emp_no
+where dept_manager.to_date > curdate()
+and dept_emp.to_date > curdate();
+
+# Bonus Who is the highest paid employee within each department.
+
+select first_name, last_name, salary, dept_name
+from employees
+join salaries ON salaries.emp_no = employees.emp_no
+join dept_emp ON dept_emp.emp_no = employees.emp_no
+join departments ON departments.dept_no = dept_emp.dept_no
+where salary in (
+
+		select max(salary)
+		from employees
+		join salaries ON salaries.emp_no = employees.emp_no
+		join dept_emp ON dept_emp.emp_no = employees.emp_no
+		join departments ON departments.dept_no = dept_emp.dept_no
+		group by dept_name
+)
+AND salaries.to_date > curdate() AND
+dept_emp.to_date > curdate();
