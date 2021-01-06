@@ -41,7 +41,7 @@ group by title;
 
 # 3 How many people in the employees table are no longer working for the company? Give the answer in a comment in your code.
 
-# will need to use employee table and dept_emp to link up to_dates
+# subquery the salaries to find all current emp_no receiving a salary. use NOT IN to filter out emp_no getting a salary
 
 select count(emp_no)
 from employees
@@ -51,7 +51,7 @@ WHERE emp_no NOT IN (
 	WHERE to_date > curdate()
 );
 
-# 91,409 employees
+# 59900 employees
 
 # 4 Find all the current department managers that are female. List their names in a comment in your code.
 
