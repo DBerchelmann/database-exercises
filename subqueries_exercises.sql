@@ -25,7 +25,7 @@ where hire_date = (
 	where emp_no = 101010) AND
 to_date > curdate();
 
-# Find all the titles ever held by all current employees with the first name Aamod.
+# 2 Find all the titles ever held by all current employees with the first name Aamod.
 
 # will need to access employees table to get name
 # will need to link employees to titles to get all titles ever held by linking with emp_no
@@ -65,6 +65,18 @@ where gender IN (
 	from employees
 	where gender = "F") AND 
 to_date > curdate();
+
+
+# other way to solove
+
+select first_name, last_name, gender
+from employees
+where emp_no IN (
+	select emp_no
+	from dept_manager
+	where to_date > curdate())
+AND gender = "F";
+
 
 # 5 Find all the employees who currently have a higher salary than the companies overall, historical average salary.
 
@@ -106,7 +118,13 @@ where to_date>curdate();
 
 
 
+
 # total count of current salaries >= 1 stddev from highest salary 
+
+select
+	(max(salary) - stddev(salary)) as salary_within_one_stddev_of_max
+	from salaries
+	where to_date > curdate();
 
 # select max - select stddev
 
@@ -164,7 +182,7 @@ group by dept_name;
 
 # 2 Find the first and last name of the employee with the highest salary.
 
-select *
+select first_name, last_name, salary
 from employees
 join salaries using (emp_no)
 where salary = (
@@ -176,9 +194,12 @@ where salary = (
 # 3 Find the department name that the employee with the highest salary works in.
 
 
-select dept_name, salary, concat(ewd.first_name, " ", ewd.last_name)
+# 3 Find the department name that the employee with the highest salary works in.
+
+
+select dept_name, salary, concat(ewd.first_name, " ", ewd.last_name) as full_name
 from employees_with_departments as ewd
-join salaries using (emp_no)
+join salaries using (emp_no) 
 where salary = (
 		select max(salary) 
 		from salaries
