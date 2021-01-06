@@ -154,11 +154,11 @@ where to_date > curdate();
 # 1 Find all the department names that currently have female managers.
 
 select dept_name, count(dept_name), gender as "manager gender"
-from employees
-join dept_emp using (emp_no)
+from dept_manager
+join employees using (emp_no)
 join departments using (dept_no)
 where gender IN (select gender from employees where gender = "F") AND
-dept_emp.to_date > curdate()
+dept_manager.to_date > curdate()
 group by dept_name;
 
 
