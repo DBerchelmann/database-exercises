@@ -110,7 +110,45 @@ where to_date>curdate();
 
 # select max - select stddev
 
+
+
+select count(*)
+from salaries
+where salary >= (
+				(select max(salary)
+				from salaries) 
+				-
+				(select stddev(salary)
+				from salaries)
+) AND
+to_date>curdate();
+
+# 78 salaries				
+		
 # total number of current salaries
+select count(salary)
+from salaries
+where to_date>curdate();
+
+# 240,124
+
+select concat((((
+		select count(*)
+		from salaries
+		where salary >= (
+				(select max(salary)
+				from salaries) 
+				-
+				(select stddev(salary)
+				from salaries
+				where to_date > curdate()))
+			and
+			salaries.to_date > curdate()
+	)
+	/ count(salary)) * 100), "%") as "percentage"
+from salaries
+where to_date > curdate();
+		
 
 # Bonus
 # 1 Find all the department names that currently have female managers.
