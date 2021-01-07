@@ -21,3 +21,10 @@ from employees;
 
 # 3 How many employees (current or previous) were born in each decade?
 
+select count(emp_no) as number_of_employees,
+	CASE
+		WHEN birth_date like '195%' THEN '50s'
+		ELSE '60s'
+		END AS decade_of_birth
+FROM employees
+GROUP BY decade_of_birth;
