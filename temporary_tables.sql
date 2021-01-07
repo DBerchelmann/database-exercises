@@ -45,25 +45,48 @@ from ewd;
 
 # (2) Create a temporary table based on the payment table from the sakila database.
 
+
+DROP TEMPORARY TABLE payment8;
+
+
 select *
 from sakila.payment;
 
-CREATE TEMPORARY TABLE payment AS (
+CREATE TEMPORARY TABLE new_payment1 AS (
 		SELECT *
 		FROM sakila.payment);
 
 select *
-from payment;
+from new_payment1;
 
 # Write the SQL necessary to transform the amount column such that it is stored as an integer representing the number of cents of the payment. 
 # For example, 1.99 should become 199.
 
-UPDATE payment
+Alter table new_payment1 
+modify AMOUNT DECIMAL(10, 4);
+
+UPDATE new_payment1
 SET AMOUNT = AMOUNT * 100;
 
-Alter table payment modify amount int;
+Alter table new_payment1 
+modify AMOUNT INT;
 
-SELECT * 
-FROM payment;
+select *
+from new_payment1;
+ # (3) Find out how the current average pay in each department compares to the overall, historical average pay. In order to make the comparison easier, you should use the Z-score for salaries. In terms of salary, what is the best department right now to work for? The worst?
+ 
+use employees;
+
+select dept_name, round(avg(salary), 2) as "average historical salary"
+from employees_with_departments as ewd 
+join salaries using (emp_no)
+where to_date < curdate()
+group by dept_name;
+
+select dept_name, round(avg(salary), 2) as "average current salary"
+from employees_with_departments as ewd 
+join salaries using (emp_no)
+where salaries.to_date > curdate()
+group by dept_name;
 
 
