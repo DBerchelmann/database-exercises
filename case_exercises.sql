@@ -30,50 +30,9 @@ FROM employees
 GROUP BY decade_of_birth;
 
 
--- count decades
-SELECT count(birth_date)
-FROM employees
-WHERE birth_date LIKE '195%'
-;
--- count decades
-SELECT count(birth_date)
-FROM employees
-WHERE birth_date LIKE '196%'
-;
 
 # BONUS What is the current average salary for each of the following department groups: R&D, Sales & Marketing, Prod & QM, Finance & HR, Customer Service?
 
-use employees;
-
-use easley_1264;
-
-CREATE TEMPORARY TABLE new_departments AS (SELECT dept_name,
-        CASE 
-            WHEN dept_name IN ('research', 'development') THEN 'R&D'
-            WHEN dept_name IN ('sales', 'marketing') THEN 'Sales & Marketing' 
-            WHEN dept_name IN ('Production', 'Quality Management') THEN 'Prod & QM'
-            ELSE dept_name
-            END AS dept_group
-FROM employees.departments);
-
-
-select *
-from new_departments;
-
-select round(avg(salary), 2)
-from new_departments;
-
-use employees;
-
-SELECT dept_name, emp_no, salary,
-        CASE 
-            WHEN dept_name IN ('research', 'development') THEN 'R&D'
-            WHEN dept_name IN ('sales', 'marketing') THEN 'Sales & Marketing' 
-            WHEN dept_name IN ('Production', 'Quality Management') THEN 'Prod & QM'
-            ELSE dept_name
-            END AS dept_group
-FROM employees.salaries
-JOIN employees_with_departments USING (emp_no);
 
 SELECT
         CASE 
