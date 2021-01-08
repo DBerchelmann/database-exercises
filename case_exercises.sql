@@ -16,8 +16,10 @@ select first_name, last_name,
 		WHEN LEFT(last_name, 1) >= 'A' AND LEFT(last_name, 1) <= 'H' THEN 'A-H'
 		WHEN LEFT(last_name, 1) >= 'I' AND LEFT(last_name, 1) <= 'Q' THEN 'I-Q'
 		ELSE 'R-Z'
-	END as "alpha_group"
-from employees;
+	END as alpha_group
+from employees
+group by first_name, last_name;
+
 
 # 3 How many employees (current or previous) were born in each decade?
 
@@ -39,6 +41,7 @@ SELECT
             WHEN dept_name IN ('research', 'development') THEN 'R&D'
             WHEN dept_name IN ('sales', 'marketing') THEN 'Sales & Marketing' 
             WHEN dept_name IN ('Production', 'Quality Management') THEN 'Prod & QM'
+			 WHEN dept_name IN ('Finance', 'HR') THEN 'Finance & HR'
             ELSE dept_name
             END AS dept_group, 
         concat("$", round(avg(salary), 2)) as average_salary
