@@ -67,3 +67,19 @@ from country
 group by continent
 order by total_population desc;
 
+# What is the average life expectancy globally?
+
+select avg(LifeExpectancy)
+from country;
+
+# What is the average life expectancy for each region, each continent? Sort the results from shortest to longest
+
+select region, avg(LifeExpectancy) as avg_life
+from country
+group by region
+order by avg_life;
+
+select continent, avg(LifeExpectancy) as avg_life
+from country
+group by continent
+order by avg_life;
