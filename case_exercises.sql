@@ -21,10 +21,70 @@ from employees;
 
 # 3 How many employees (current or previous) were born in each decade?
 
-select count(emp_no) as number_of_employees,
+select count(birth_date) as number_of_employees,
 	CASE
 		WHEN birth_date like '195%' THEN '50s'
 		ELSE '60s'
 		END AS decade_of_birth
 FROM employees
 GROUP BY decade_of_birth;
+
+
+-- count decades
+SELECT count(birth_date)
+FROM employees
+WHERE birth_date LIKE '195%'
+;
+-- count decades
+SELECT count(birth_date)
+FROM employees
+WHERE birth_date LIKE '196%'
+;
+
+# BONUS What is the current average salary for each of the following department groups: R&D, Sales & Marketing, Prod & QM, Finance & HR, Customer Service?
+
+use employees;
+
+use easley_1264;
+
+CREATE TEMPORARY TABLE new_departments AS (SELECT dept_name,
+        CASE 
+            WHEN dept_name IN ('research', 'development') THEN 'R&D'
+            WHEN dept_name IN ('sales', 'marketing') THEN 'Sales & Marketing' 
+            WHEN dept_name IN ('Production', 'Quality Management') THEN 'Prod & QM'
+            ELSE dept_name
+            END AS dept_group
+FROM employees.departments);
+
+
+select *
+from new_departments;
+
+select round(avg(salary), 2)
+from new_departments;
+
+use employees;
+
+SELECT dept_name, emp_no, salary,
+        CASE 
+            WHEN dept_name IN ('research', 'development') THEN 'R&D'
+            WHEN dept_name IN ('sales', 'marketing') THEN 'Sales & Marketing' 
+            WHEN dept_name IN ('Production', 'Quality Management') THEN 'Prod & QM'
+            ELSE dept_name
+            END AS dept_group
+FROM employees.salaries
+JOIN employees_with_departments USING (emp_no);
+
+SELECT
+        CASE 
+            WHEN dept_name IN ('research', 'development') THEN 'R&D'
+            WHEN dept_name IN ('sales', 'marketing') THEN 'Sales & Marketing' 
+            WHEN dept_name IN ('Production', 'Quality Management') THEN 'Prod & QM'
+            ELSE dept_name
+            END AS dept_group, 
+        concat("$", round(avg(salary), 2)) as average_salary
+FROM employees.salaries
+JOIN employees_with_departments USING (emp_no)
+WHERE salaries.to_date > curdate()
+GROUP BY dept_group;
+
