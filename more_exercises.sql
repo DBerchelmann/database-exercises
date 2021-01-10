@@ -84,3 +84,9 @@ select continent, avg(LifeExpectancy) as avg_life
 from country
 group by continent
 order by avg_life;
+
+# Find all the countries whose local name is different from the official name
+
+select name, LocalName,
+	IF(name != LocalName, true, false) as does_it_match
+from country;
