@@ -1,4 +1,5 @@
 use easley_1264;
+
 create temporary table depts_avg_sal as (
 select ewd.dept_no, avg(salary) as dept_avg
 from employees.employees_with_departments as ewd
